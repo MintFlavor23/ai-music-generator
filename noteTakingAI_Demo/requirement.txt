@@ -15,3 +15,5 @@ transformers>=4.0.0
 
 # Wikipedia API access
 wikipedia>=1.4.0
+
+Download the required files for vosk by https://alphacephei.com/vosk/models
