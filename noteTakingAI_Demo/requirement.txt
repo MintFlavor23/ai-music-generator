@@ -1,0 +1,17 @@
+python 3.11
+# GUI and layout libraries
+kivy>=2.1.0
+kivymd>=1.1.1
+
+# Audio processing
+pyaudio>=0.2.11
+
+# Speech recognition
+vosk>=0.3.30
+
+# Natural language processing
+spacy>=3.0.0
+transformers>=4.0.0
+
+# Wikipedia API access
+wikipedia>=1.4.0
