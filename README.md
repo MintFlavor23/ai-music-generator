@@ -20,7 +20,7 @@ run server:
 python app.py
 ```
 > [!NOTE]
-> dont forget to wait for debuger pin show up
+> - Dont forget to wait for debuger pin show up
 
 Test the API using curl:
 ```sh
