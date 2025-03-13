@@ -1,5 +1,5 @@
 # note taker Demo
-This is [noteTaker Demo for Win](https://drive.google.com/file/d/1DMjpb8vtG0tsCZqnJEAoCJr0B6aTPV0M/view?usp=sharing)
+This is to download[NoteTaker Demo for Windows](https://drive.google.com/file/d/1DMjpb8vtG0tsCZqnJEAoCJr0B6aTPV0M/view?usp=sharing)
 
 # AI Lyrics Generator
 
@@ -8,7 +8,7 @@ This project consists of a Flask backend and a React frontend that generates AI-
 ---
 
 ## 📌 Backend Requirements
-
+Place your [app.py](backend/app.py) to your backend root directory
 Make sure you have the following dependencies installed:
 ```sh
 pip install flask flask-cors transformers torch
