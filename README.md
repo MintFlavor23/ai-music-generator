@@ -15,8 +15,9 @@ Make sure you have the following dependencies installed:
 pip install flask flask-cors transformers torch
 
 run server:
+```sh
 python app.py
-
+```
 -- wait for debuger pin show up
 
 Test the API using curl:
