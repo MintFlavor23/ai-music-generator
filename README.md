@@ -1,5 +1,5 @@
 # note taker Demo
-[windows demo for noteTaker]: (https://drive.google.com/file/d/1DMjpb8vtG0tsCZqnJEAoCJr0B6aTPV0M/view?usp=sharing)
+This is [noteTaker Demo for Win](https://drive.google.com/file/d/1DMjpb8vtG0tsCZqnJEAoCJr0B6aTPV0M/view?usp=sharing)
 
 # AI Lyrics Generator
 
