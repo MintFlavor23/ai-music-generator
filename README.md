@@ -8,11 +8,10 @@ This project consists of a Flask backend and a React frontend that generates AI-
 ---
 
 ## 📌 Backend Requirements
-> [!NOTE]
-> Place your [app.py](backend/app.py) to your backend root directory
->
 
-Make sure you have the following dependencies installed:
+Place your [app.py](backend/app.py) to your backend root directory
+> [!NOTE]
+> Make sure you have the following dependencies installed:
 ```sh
 pip install flask flask-cors transformers torch
 ```
