@@ -26,7 +26,11 @@ Test the API using curl:
 ```sh
 curl -X POST "http://127.0.0.1:5000/generate-lyrics" -H "Content-Type: application/json" -d "{\"music_style\": \"rock\", \"theme\": \"adventure\", \"length\": 250, \"emotion\": \"exciting\", \"structure\": \"verse-chorus-verse\"}"
 ```
-
+### Adjust the split to fill the needs:
+Feel free to change ***\n*** to any symbol to suit your needs
+```
+lines = generated_text.strip().split("\n")
+```
 # Frontend Development Guide:
 Ensure this React useState setup:
 ```
