@@ -9,7 +9,7 @@ This project consists of a Flask backend and a React frontend that generates AI-
 
 ## 📌 Backend Requirements
 
-1️⃣Place your [app.py](backend/app.py) to your backend root directory
+### 1️⃣Place your [app.py](backend/app.py) to your backend root directory
 
 ### 2️⃣Make sure you have the following dependencies installed:
 ```sh
@@ -32,7 +32,7 @@ Feel free to change ***\n*** to any symbol to suit your needs
 lines = generated_text.strip().split("\n")
 ```
 # Frontend Development Guide:
-1️⃣Ensure this React useState setup:
+### 1️⃣Ensure this React useState setup:
 ```
 const [formData, setFormData] = useState({
     music_style: "rock",
@@ -42,13 +42,13 @@ const [formData, setFormData] = useState({
     structure: "verse-chorus-verse",
 });
 ```
-2️⃣Make the API request using Axios:
+### 2️⃣Make the API request using Axios:
 ```
 const response = await axios.post("http://127.0.0.1:5000/generate-lyrics", formData, {
     headers: { "Content-Type": "application/json" },
 });
 ```
-3️⃣Create an Input Field for User Input  
+### 3️⃣Create an Input Field for User Input  
 Allowing users to update formData dynamically:
 ```
 <input type="text" name="music_style" value={formData.music_style} onChange={handleChange} />
