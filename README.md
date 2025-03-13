@@ -11,9 +11,9 @@ This project consists of a Flask backend and a React frontend that generates AI-
 ## 📌 Backend Requirements
 
 Make sure you have the following dependencies installed:
-
+```sh
 pip install flask flask-cors transformers torch
-
+```
 run server:
 ```sh
 python app.py
@@ -21,10 +21,13 @@ python app.py
 -- wait for debuger pin show up
 
 Test the API using curl:
+```sh
 curl -X POST "http://127.0.0.1:5000/generate-lyrics" -H "Content-Type: application/json" -d "{\"music_style\": \"rock\", \"theme\": \"adventure\", \"length\": 250, \"emotion\": \"exciting\", \"structure\": \"verse-chorus-verse\"}"
+```
 
 # Frontend Development Guide:
 Ensure this React useState setup:
+```
 const [formData, setFormData] = useState({
     music_style: "rock",
     theme: "adventure",
@@ -32,12 +35,14 @@ const [formData, setFormData] = useState({
     emotion: "exciting",
     structure: "verse-chorus-verse",
 });
-
+```
 Make the API request using Axios:
+```
 const response = await axios.post("http://127.0.0.1:5000/generate-lyrics", formData, {
     headers: { "Content-Type": "application/json" },
 });
-
+```
 Then request input to change the formData:
+```
 <input type="text" name="music_style" value={formData.music_style} onChange={handleChange} />
-
+```
