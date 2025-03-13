@@ -1,6 +1,5 @@
-# ai-music-generator
-
-windows demo for noteTaker: https://drive.google.com/file/d/1DMjpb8vtG0tsCZqnJEAoCJr0B6aTPV0M/view?usp=sharing
+# note taker Demo
+windows demo for noteTaker: [https://drive.google.com/file/d/1DMjpb8vtG0tsCZqnJEAoCJr0B6aTPV0M/view?usp=sharing]
 
 # AI Lyrics Generator
 
