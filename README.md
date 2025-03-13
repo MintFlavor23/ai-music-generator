@@ -15,7 +15,7 @@ Place your [app.py](backend/app.py) to your backend root directory
 ```sh
 pip install flask flask-cors transformers torch
 ```
-run server:
+>run server:
 ```sh
 python app.py
 ```
