@@ -10,8 +10,8 @@ This project consists of a Flask backend and a React frontend that generates AI-
 ## 📌 Backend Requirements
 
 Place your [app.py](backend/app.py) to your backend root directory
-> [!IMPORTANT]
-> - Make sure you have the following dependencies installed:
+
+### Make sure you have the following dependencies installed:
 ```sh
 pip install flask flask-cors transformers torch
 ```
@@ -19,14 +19,14 @@ run server:
 ```sh
 python app.py
 ```
-> [!NOTE]
->- Dont forget to wait for debuger pin show up
+Dont forget to wait for debuger pin show up
 
 Test the API using curl:
 ```sh
 curl -X POST "http://127.0.0.1:5000/generate-lyrics" -H "Content-Type: application/json" -d "{\"music_style\": \"rock\", \"theme\": \"adventure\", \"length\": 250, \"emotion\": \"exciting\", \"structure\": \"verse-chorus-verse\"}"
 ```
-### Adjust the split to fill the needs:
+>[!NOTE>
+>Adjust the split to fill the needs:
 Feel free to change ***\n*** to any symbol to suit your needs
 ```
 lines = generated_text.strip().split("\n")
