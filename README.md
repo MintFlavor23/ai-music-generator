@@ -18,7 +18,7 @@ run server:
 ```sh
 python app.py
 ```
--- wait for debuger pin show up
+dont forget to wait for debuger pin show up
 
 Test the API using curl:
 ```sh
