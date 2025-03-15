@@ -43,6 +43,10 @@ python app.py
 ```sh
 curl -X POST "http://127.0.0.1:5000/generate-lyrics" -H "Content-Type: application/json" -d "{\"music_style\": \"rock\", \"theme\": \"adventure\", \"length\": 250, \"emotion\": \"exciting\", \"structure\": \"verse-chorus-verse\"}"
 ```
+### 4️⃣ Test the API using curl for music:
+```sh
+curl -X POST "http://127.0.0.1:5000/generate-music" -H "Content-Type: application/json" -d "{\"des\": \"Upbeat pop track with a driving beat and bright, uplifting chords. Inspired by modern synth-pop.\"}"
+```
 >[!NOTE]
 >⚡Adjust the split to fill the needs:  
 Feel free to change ***\n*** to any symbol to suit your needs
