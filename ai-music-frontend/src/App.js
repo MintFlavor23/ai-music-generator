@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
 import { Sparkles, Copy, FileText, Music } from 'lucide-react';
+import jsPDF from 'jspdf';
 
 const LyricsGenerator = () => {
-  const [summary, setSummary] = useState('');
+  const [formData, setFormData] = useState({
+    music_style: '',
+    theme: '',
+    emotion: '',
+    structure: '',
+    length: ''
+  });
+  const [lyrics, setLyrics] = useState('');
   const [isGenerated, setIsGenerated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const getWordCount = (text) => {
     return text.trim().split(/\s+/).filter(word => word.length > 0).length;
   };
 
   const copyToClipboard = () => {
-    if (summary) {
-      navigator.clipboard.writeText(summary)
+    if (lyrics) {
+      navigator.clipboard.writeText(lyrics)
         .then(() => {
-          alert('Summary copied to clipboard');
+          alert('Lyrics copied to clipboard');
         })
         .catch(err => {
           console.error('Could not copy text: ', err);
@@ -22,12 +40,65 @@ const LyricsGenerator = () => {
   };
 
   const exportToPDF = () => {
-    alert('Exporting to PDF... (This would be implemented with a PDF library)');
+    if (!lyrics) {
+      alert('No lyrics to export!');
+      return;
+    }
+  
+    const doc = new jsPDF();
+    doc.setFont('Helvetica', 'normal');
+    doc.setFontSize(12);
+  
+    // Add title
+    doc.text('Generated Lyrics', 10, 10);
+  
+    // Add lyrics content
+    const margin = 10;
+    const pageWidth = doc.internal.pageSize.width;
+    const textWidth = pageWidth - margin * 2;
+    const lines = doc.splitTextToSize(lyrics, textWidth);
+    doc.text(lines, margin, 20);
+  
+    // Save the PDF
+    doc.save('lyrics.pdf');
   };
 
-  const generateSummary = () => {
-    setSummary("The modern olympics games are the world's leading international sporting events. Thousands of athletes from around the world participate in a variety of competitions. More than two hundred teams representing sovereign states and territories participate by default.");
-    setIsGenerated(true);
+  const generateLyrics = async () => {
+    try {
+      setIsLoading(true);
+      setError('');
+      
+      // Prepare data for API call
+      const apiData = {
+        music_style: formData.music_style || 'No specific style',
+        theme: formData.theme || 'No specific theme',
+        emotion: formData.emotion || 'No specific emotion',
+        structure: formData.structure || 'No specific structure',
+        length: parseInt(formData.length) || 350
+      };
+
+      // Call backend API
+      const response = await fetch('http://127.0.0.1:5000/generate-lyrics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(apiData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate lyrics');
+      }
+
+      const data = await response.json();
+      setLyrics(data.lyrics);
+      setIsGenerated(true);
+    } catch (err) {
+      setError('Error generating lyrics. Please try again.');
+      console.error('Error:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -42,7 +113,7 @@ const LyricsGenerator = () => {
       
       <div className="relative">
         <div className="flex justify-between gap-8">
-          {/* 左侧输入区域 */}
+          {/* Input section */}
           <div className={`transition-all duration-1000 ease-in-out ${
             isGenerated ? 'w-1/2' : 'w-3/5 mx-auto'
           }`}>
@@ -50,6 +121,9 @@ const LyricsGenerator = () => {
               <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Style</h2>
               <input
                 type="text"
+                name="music_style"
+                value={formData.music_style}
+                onChange={handleInputChange}
                 placeholder="e.g. Pop, Rock, Country, Hip-Hop, Jazz, R&B"
                 className="w-full p-3 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-gray-400"
               />
@@ -59,6 +133,9 @@ const LyricsGenerator = () => {
               <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Theme</h2>
               <input
                 type="text"
+                name="theme"
+                value={formData.theme}
+                onChange={handleInputChange}
                 placeholder="e.g. Love, Friendship, Journey, Heartbreak, Success"
                 className="w-full p-3 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-gray-400"
               />
@@ -68,6 +145,9 @@ const LyricsGenerator = () => {
               <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Emotional Tone</h2>
               <input
                 type="text"
+                name="emotion"
+                value={formData.emotion}
+                onChange={handleInputChange}
                 placeholder="e.g. Happy, Sad, Hopeful, Angry, Nostalgic, Upbeat"
                 className="w-full p-3 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-gray-400"
               />
@@ -77,6 +157,9 @@ const LyricsGenerator = () => {
               <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Structure</h2>
               <input
                 type="text"
+                name="structure"
+                value={formData.structure}
+                onChange={handleInputChange}
                 placeholder="e.g. Verse-Chorus-Verse, AABA, Includes Bridge"
                 className="w-full p-3 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-gray-400"
               />
@@ -86,25 +169,28 @@ const LyricsGenerator = () => {
               <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Length</h2>
               <input
                 type="text"
-                placeholder="e.g. Around 200 words"
+                name="length"
+                value={formData.length}
+                onChange={handleInputChange}
+                placeholder="e.g. 350 (approximate character length)"
                 className="w-full p-3 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-gray-400"
               />
             </div>
           </div>
 
-          {/* 右侧生成区域 */}
+          {/* Generated lyrics area */}
           <div className={`w-3/5 transition-all duration-1000 ease-in-out ${
             isGenerated ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full hidden'
           }`}>
             <div className="relative">
-              <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Modify your lyrics:</h2>
+              <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Your generated lyrics:</h2>
               <textarea
-                value={summary}
-                onChange={(e) => setSummary(e.target.value)}
+                value={lyrics}
+                onChange={(e) => setLyrics(e.target.value)}
                 className="w-full p-4 font-bold bg-gray-50 border border-gray-200 rounded-lg text-gray-500 min-h-[470px] resize-y"
               />
               <div className="absolute right-3 bottom-3 text-sm text-gray-400">
-                {getWordCount(summary)} words
+                {getWordCount(lyrics)} words
               </div>
               
               <div className="absolute right-2 bottom-[-3rem] flex space-x-3">
@@ -136,16 +222,24 @@ const LyricsGenerator = () => {
           </div>
         </div>
 
-        {/* 将按钮移到这里，使用绝对定位 */}
+        {/* Generate button */}
         <div className="absolute left-1/2 -translate-x-1/2 mt-8">
           <button
-            onClick={generateSummary}
-            className="flex flex-row justify-center items-center px-8 py-3 bg-[#1DB954] text-white font-large rounded-lg transition-colors hover:bg-[#1ed760] font-sora"
+            onClick={generateLyrics}
+            disabled={isLoading}
+            className={`flex flex-row justify-center items-center px-8 py-3 bg-[#1DB954] text-white font-large rounded-lg transition-colors hover:bg-[#1ed760] font-sora ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
           >  
-            Generate Lyrics
-            <Sparkles className="w-5 h-5 ml-2" />
+            {isLoading ? 'Generating...' : 'Generate Lyrics'}
+            {!isLoading && <Sparkles className="w-5 h-5 ml-2" />}
           </button>
         </div>
+        
+        {/* Error message */}
+        {error && (
+          <div className="mt-16 text-center text-red-500">
+            {error}
+          </div>
+        )}
       </div>
     </div>
   );
