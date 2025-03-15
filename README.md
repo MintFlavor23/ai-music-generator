@@ -31,7 +31,7 @@ Contact: https://www.linkedin.com/in/sinian-liu/
 
 ### 2️⃣ Make sure you have the following dependencies installed:
 ```sh
-pip install flask flask-cors transformers torch
+pip install flask flask-cors transformers torch scipy
 ```
 ### 3️⃣ run flask server:
 ```sh
