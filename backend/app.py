@@ -32,27 +32,36 @@ def generate_lyrics():
         structure = data.get("structure", "verse-chorus-verse")
 
         prompt = f"""
-        This is an {emotion} {music_style} song about {theme}.
+        Create an original {emotion} {music_style} song about {theme} with structure: {structure}.
 
-        [Verse 1]
-        The journey begins, with a fire inside,
-        Wind at our backs, nowhere to hide.
-        We chase the thrill, the open sky,
-        No fear tonight, we’re ready to fly.
+        You should generate output in below format. However, The sturcture should change based on input, {structure}:
+        Output Format:
 
-        [Chorus]
-        We're running fast, we're feeling free,
-        The road is ours, as wild as the sea.
-        No turning back, just let it be,
-        The world is calling, can't you see?
+Song Title: [Title]
 
-        [Verse 2]
+Lyrics:
+
+[Verse 1]
+The journey begins, with a fire inside,
+Wind at our backs, nowhere to hide.
+We chase the thrill, the open sky,
+No fear tonight, we're ready to fly.
+
+[Chorus]
+We're running fast, we're feeling free,
+The road is ours, as wild as the sea.
+No turning back, just let it be,
+The world is calling, can't you see?
+
+[Verse 2]
+The road is ours, as wild as the sea.
+No turning back, just let it be.
         """
 
         generated = generator(
             prompt,
-            max_length=length,
-            min_length=length - 50,
+            max_new_tokens=length,
+            min_new_tokens=length - 50,
             num_return_sequences=1,
             temperature=0.7,
             repetition_penalty=1.6,
