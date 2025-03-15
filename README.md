@@ -31,7 +31,7 @@ Contact: https://www.linkedin.com/in/sinian-liu/
 
 ### 2️⃣ Make sure you have the following dependencies installed:
 ```sh
-pip install flask flask-cors transformers torch
+pip install flask flask-cors transformers torch scipy
 ```
 ### 3️⃣ run flask server:
 ```sh
@@ -42,6 +42,10 @@ python app.py
 ### 4️⃣ Test the API using curl:
 ```sh
 curl -X POST "http://127.0.0.1:5000/generate-lyrics" -H "Content-Type: application/json" -d "{\"music_style\": \"rock\", \"theme\": \"adventure\", \"length\": 250, \"emotion\": \"exciting\", \"structure\": \"verse-chorus-verse\"}"
+```
+### 4️⃣ Test the API using curl for music:
+```sh
+curl -X POST "http://127.0.0.1:5000/generate-music" -H "Content-Type: application/json" -d "{\"des\": \"Upbeat pop track with a driving beat and bright, uplifting chords. Inspired by modern synth-pop.\"}"
 ```
 >[!NOTE]
 >⚡Adjust the split to fill the needs:  
