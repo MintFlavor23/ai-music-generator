@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, Copy, FileText, Music } from 'lucide-react';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import MusicGenerator from './MusicGenerator'; 
 
 const LyricsGenerator = () => {
