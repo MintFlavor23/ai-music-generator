@@ -207,7 +207,7 @@ Against the world that tried to break
 All the promises we'd make
 """
 
-        time.sleep(3)
+        time.sleep(200)
         return jsonify({"lyrics": predefined_lyrics})
 
     except Exception as e:
