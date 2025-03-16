@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Copy, FileText, Music } from 'lucide-react';
 import jsPDF from 'jspdf';
+import MusicGenerator from './MusicGenerator'; 
 
 const LyricsGenerator = () => {
   const [formData, setFormData] = useState({
@@ -8,12 +9,14 @@ const LyricsGenerator = () => {
     theme: '',
     emotion: '',
     structure: '',
-    length: ''
+    length: '',
+    accompanimentDescription: '' // background music description
   });
   const [lyrics, setLyrics] = useState('');
   const [isGenerated, setIsGenerated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showMusicGenerator, setShowMusicGenerator] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -93,6 +96,11 @@ const LyricsGenerator = () => {
       const data = await response.json();
       setLyrics(data.lyrics);
       setIsGenerated(true);
+      
+      // if accompaniment description is provided, show music generator
+      if (formData.accompanimentDescription.trim()) {
+        setShowMusicGenerator(true);
+      }
     } catch (err) {
       setError('Error generating lyrics. Please try again.');
       console.error('Error:', err);
@@ -108,7 +116,7 @@ const LyricsGenerator = () => {
           <h1 className="text-5xl font-bold text-gray-800 font-cartoon">AI Lyrics Generator</h1>
           <Music size={40} className="text-gray-800" />
         </div>
-        <h3 className="text-1xl font-bold text-gray-400 mt-4">Create your customized lyrics!</h3>
+        <h3 className="text-1xl font-bold text-gray-400 mt-4">Create your customized lyrics and accompaniment!</h3>
       </div>
       
       <div className="relative">
@@ -176,18 +184,42 @@ const LyricsGenerator = () => {
                 className="w-full p-3 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-gray-400"
               />
             </div>
+
+            <div className="mb-6">
+              <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Accompaniment Style</h2>
+              <textarea
+                name="accompanimentDescription"
+                value={formData.accompanimentDescription}
+                onChange={handleInputChange}
+                placeholder="e.g. Upbeat pop track with a driving beat and bright, uplifting chords. Inspired by modern synth-pop."
+                className="w-full p-3 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:border-gray-400 h-[100px] resize-none"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                *Optional: If provided, a backing track will be generated based on this description.
+              </p>
+            </div>
           </div>
 
           {/* Generated lyrics area */}
           <div className={`w-3/5 transition-all duration-1000 ease-in-out ${
             isGenerated ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full hidden'
           }`}>
+            {/* Music Generator Component - Now outside the box */}
+            {showMusicGenerator && (
+              <div className="mb-8">
+                <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Accompaniment Track</h2>
+                <MusicGenerator description={formData.accompanimentDescription} />
+              </div>
+            )}
+
             <div className="relative">
-              <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Your generated lyrics:</h2>
+              <h2 className="text-md font-bold text-gray-700 mb-2 font-sora">Generated Lyrics</h2>
               <textarea
                 value={lyrics}
                 onChange={(e) => setLyrics(e.target.value)}
-                className="w-full p-4 font-bold bg-gray-50 border border-gray-200 rounded-lg text-gray-500 min-h-[470px] resize-y"
+                className={`w-full p-4 font-bold bg-gray-50 border border-gray-200 rounded-lg text-gray-500 ${
+                  showMusicGenerator ? 'min-h-[443px]' : 'min-h-[630px]'
+                }`}
               />
               <div className="absolute right-3 bottom-3 text-sm text-gray-400">
                 {getWordCount(lyrics)} words
