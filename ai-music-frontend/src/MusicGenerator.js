@@ -14,7 +14,7 @@ const MusicGenerator = ({ description }) => {
     if (description && description.trim()) {
       generateMusic();
     }
-  });
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
