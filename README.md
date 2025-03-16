@@ -24,6 +24,8 @@ Contact: https://www.linkedin.com/in/sinian-liu/
 - Pytorch
 - Other dependencies (see requirements.txt)
 
+## Preview
+![image](https://github.com/user-attachments/assets/266e2205-b35d-43d9-afed-f543e32839e6)
 
 ## 📌 Backend Requirements
 
