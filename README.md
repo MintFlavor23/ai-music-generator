@@ -11,7 +11,8 @@ This project features a Flask backend and a React frontend that generates AI-pow
 - xx
 - xx
 - xx
-- xx
+- **Yifei Shang**
+Contact: https://www.linkedin.com/in/yifei-s-b3b013221
 - **Sinian Liu**  
 Contact: https://www.linkedin.com/in/sinian-liu/
 
