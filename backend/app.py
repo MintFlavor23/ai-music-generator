@@ -31,37 +31,27 @@ def generate_lyrics():
         emotion = data.get("emotion", "happy")
         structure = data.get("structure", "verse-chorus-verse")
 
+        # A simpler example prompt. Feel free to tweak text:
         prompt = f"""
-        Create an original {emotion} {music_style} song about {theme} with structure: {structure}.
+        Write a {emotion} {music_style} song about {theme}.
+        Use a structure with verses and a chorus, like this:
 
-        You should generate output in below format. However, The sturcture should change based on input, {structure}:
-        Output Format:
+        [Verse 1]
+        ...
 
-Song Title: [Title]
+        [Chorus]
+        ...
 
-Lyrics:
-
-[Verse 1]
-The journey begins, with a fire inside,
-Wind at our backs, nowhere to hide.
-We chase the thrill, the open sky,
-No fear tonight, we're ready to fly.
-
-[Chorus]
-We're running fast, we're feeling free,
-The road is ours, as wild as the sea.
-No turning back, just let it be,
-The world is calling, can't you see?
-
-[Verse 2]
-The road is ours, as wild as the sea.
-No turning back, just let it be.
+        [Verse 2]
+        ...
+        Please continue now with original lyrics:
         """
 
+        # Generate text from the prompt
         generated = generator(
             prompt,
-            max_new_tokens=length,
-            min_new_tokens=length - 50,
+            max_length=length,
+            min_length=length - 50,
             num_return_sequences=1,
             temperature=0.7,
             repetition_penalty=1.6,
@@ -72,16 +62,24 @@ No turning back, just let it be.
 
         generated_text = generated[0]["generated_text"]
 
+        # 1) If the output starts with your prompt, remove that prompt portion
+        if generated_text.startswith(prompt):
+            generated_text = generated_text[len(prompt):]
+
+        # 2) Check stop tokens, and if found (beyond prompt text), cut them off
         stop_tokens = ["--END--", "Verse 1:", "Chorus:", "Bridge:", "Outro:"]
         for token in stop_tokens:
-            if token in generated_text and generated_text.index(token) > len(prompt) + 50:
-                generated_text = generated_text.split(token)[0]
+            # Only remove if it occurs well after the prompt
+            idx = generated_text.find(token)
+            if idx != -1 and idx > 50:
+                generated_text = generated_text[:idx]
 
+        # 3) Remove duplicate lines
         lines = generated_text.strip().split("\n")
         unique_lines = []
         for line in lines:
-            if line not in unique_lines:
-                unique_lines.append(line)
+            if line.strip() and line not in unique_lines:
+                unique_lines.append(line.strip())
         cleaned_text = "\n".join(unique_lines)
 
         return jsonify({"lyrics": cleaned_text})
