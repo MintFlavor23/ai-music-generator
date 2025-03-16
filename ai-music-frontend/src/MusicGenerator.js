@@ -10,14 +10,12 @@ const MusicGenerator = ({ description }) => {
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
-  // 当描述变化且不为空时，自动生成音乐
   useEffect(() => {
     if (description && description.trim()) {
       generateMusic();
     }
-  }, []);
+  }, [description, generateMusic]);
 
-  // 更新进度条
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -67,7 +65,6 @@ const MusicGenerator = ({ description }) => {
         throw new Error(data.error);
       }
 
-      // 创建音频从base64数据
       const audioData = `data:audio/wav;base64,${data.audio_data_base64}`;
       setAudioSrc(audioData);
     } catch (err) {
@@ -106,7 +103,6 @@ const MusicGenerator = ({ description }) => {
     document.body.removeChild(a);
   };
 
-  // 格式化时间显示 (秒 -> MM:SS)
   const formatTime = (time) => {
     if (isNaN(time)) return '00:00';
     const minutes = Math.floor(time / 60);
@@ -114,7 +110,6 @@ const MusicGenerator = ({ description }) => {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // 处理进度条拖动
   const handleProgressChange = (e) => {
     const newTime = e.target.value;
     setCurrentTime(newTime);
@@ -139,7 +134,6 @@ const MusicGenerator = ({ description }) => {
             className="hidden"
           />
           
-          {/* 播放控制和进度条 */}
           <div className="flex items-center space-x-2 mb-2">
             <button
               onClick={togglePlayPause}
@@ -174,7 +168,6 @@ const MusicGenerator = ({ description }) => {
             </button>
           </div>
           
-          {/* 音波图或其他视觉元素可以在这里添加 */}
           <div className="h-10 bg-gray-50 rounded-md overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-gray-200 to-green-100" 
